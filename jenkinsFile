@@ -1,0 +1,40 @@
+pipeline {
+    environment {
+      registry = "dockerhub.io"
+      registryCredentials = "Dockerhub"
+      dockerimage = ""
+      BUILD_SCRIPTS_GIT="https://github.com/shivver83/DevOps_Demo_Shivangi.git"
+      BUILD_SCRIPTS='DevOps_Demo_Shivangi'
+    }
+    agent any
+    stages {
+        stage('clonerepo') { // for display purposes
+                steps{
+                sh "cd /opt/bitnami/jenkins/jenkins_home/workspace/helm;rm -rf DevOps_Demo_Shivangi;git clone https://github.com/shivver83/DevOps_Demo_Shivangi.git/; cd DevOps_Demo_Shivangi; "
+                }
+        }
+        stage('Buildingimage') { // for display purposes
+                steps{
+                script {
+                        sh "cd /opt/bitnami/jenkins/jenkins_home/workspace/helm/DevOps_Demo_Shivangi;pwd;chmod 777 *;"
+                        dockerImage = docker.build(registry+"/sgupt26/devopsshivangi/image:$BUILD_NUMBER","-f Dockerfile .")
+                }
+        }
+        }
+        stage('Push image to dockerhub') {
+                steps{
+                        script {
+                                docker.withRegistry("https://"+registry,registryCredentials) {
+                                        dockerImage.push()
+                                }
+                        }
+                }
+        }
+        stage('docker run') {
+                steps {
+                        sh "docker run -d $registry/sgupt26/devopsshivangi/Image:$BUILD_NUMBER"
+                }
+        }
+        }
+}
+

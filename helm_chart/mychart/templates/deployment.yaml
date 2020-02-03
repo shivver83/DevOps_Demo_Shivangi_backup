@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsshivangi-helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devopsshivangi
+  template:
+    metadata:
+      labels:
+        app: devopsshivangi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: devopsshivangi
+        image: sgupt26/devopsshivangi:4
+        ports:
+        - containerPort: 8080
+          name: devopsshivangi
+

@@ -1,0 +1,14 @@
+Master:
+AdminPassword: admin
+resources:
+limits:
+cpu: "500m"
+memory: "1024mi"
+ServiceType: NodePort
+NodePort: 32323
+Persistence:
+StorageClass: managed-premium
+Size: 56L
+rbac:
+install: true
+

@@ -1,0 +1,106 @@
+[root@helm arm_template]# az group deployment create -g helm --template-file template.json --parameters parameter.json
+{
+  "id": "/subscriptions/1d87de0e-3b71-4fc5-b14f-d7076ad719f3/resourceGroups/helm/providers/Microsoft.Resources/deployments/template",
+  "location": null,
+  "name": "template",
+  "properties": {
+    "correlationId": "44424ebc-62d4-4406-b849-f8ea650c1a35",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/1d87de0e-3b71-4fc5-b14f-d7076ad719f3/resourceGroups/helm/providers/Microsoft.Storage/storageAccounts/wneocroyar4m4storage",
+            "resourceGroup": "helm",
+            "resourceName": "wneocroyar4m4storage",
+            "resourceType": "Microsoft.Storage/storageAccounts"
+          }
+        ],
+        "id": "/subscriptions/1d87de0e-3b71-4fc5-b14f-d7076ad719f3/resourceGroups/helm/providers/Microsoft.Storage/storageAccounts/wneocroyar4m4storage/blobServices/default/containers/logs",
+        "resourceGroup": "helm",
+        "resourceName": "wneocroyar4m4storage/default/logs",
+        "resourceType": "Microsoft.Storage/storageAccounts/blobServices/containers"
+      }
+    ],
+    "duration": "PT18.4017827S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/1d87de0e-3b71-4fc5-b14f-d7076ad719f3/resourceGroups/helm/providers/Microsoft.Storage/storageAccounts/wneocroyar4m4storage",
+        "resourceGroup": "helm"
+      },
+      {
+        "id": "/subscriptions/1d87de0e-3b71-4fc5-b14f-d7076ad719f3/resourceGroups/helm/providers/Microsoft.Storage/storageAccounts/wneocroyar4m4storage/blobServices/default/containers/logs",
+        "resourceGroup": "helm"
+      }
+    ],
+    "outputs": {},
+    "parameters": {
+      "accessTier": {
+        "type": "String",
+        "value": "Hot"
+      },
+      "accountType": {
+        "type": "String",
+        "value": "Standard_LRS"
+      },
+      "containerName": {
+        "type": "String",
+        "value": "logs"
+      },
+      "kind": {
+        "type": "String",
+        "value": "StorageV2"
+      },
+      "location": {
+        "type": "String",
+        "value": "westus"
+      },
+      "supportsHttpsTrafficOnly": {
+        "type": "Bool",
+        "value": true
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Storage",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "westus"
+            ],
+            "properties": null,
+            "resourceType": "storageAccounts"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "storageAccounts/blobServices/containers"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "2998734032676215642",
+    "templateLink": null,
+    "timestamp": "2020-01-30T06:00:58.970471+00:00"
+  },
+  "resourceGroup": "helm",
+  "type": "Microsoft.Resources/deployments"
+}
+[root@helm arm_template]#
+

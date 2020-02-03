@@ -1,0 +1,47 @@
+pipeline {
+    environment {
+      registry = "index.docker.io"
+      registryCredentials = "Dockerhub_cred"
+      dockerimage = "image"
+      }
+    agent any
+    stages {
+        stage('clonerepo') { // for display purposes
+                steps{
+                sh "sudo su - root"
+                sh "rm -rf /var/lib/jenkins/workspace/Demo_job/DevOps_Demo_Shivangi;git clone https://github.com/shivver83/DevOps_Demo_Shivangi.git/; cd DevOps_Demo_Shivangi; cp Dockerfile /var/lib/jenkins/workspace/Demo_job"
+                }
+        }
+        stage('Buildingimage') { // for display purposes
+                steps{
+                script {
+                        sh "cd /var/lib/jenkins/workspace/Demo_job/DevOps_Demo_Shivangi"
+                        dockerImage = docker.build(registry+"/sgupt26/devopsshivangi:$BUILD_NUMBER","-f Dockerfile /var/lib/jenkins/workspace/Demo_job/DevOps_Demo_Shivangi")
+                        }
+                    }
+        }
+        stage('Push image to dockerhub') {
+                steps{
+                        script {
+                                   withDockerRegistry(credentialsId: 'Dockerhub_cred', url: 'https://index.docker.io/v1/') {
+                                         dockerImage.push()
+                                    }
+                                }       
+                }
+        }
+        stage('docker run') {
+                steps {
+                        sh "docker run -d -p 10.0.0.4:9090:8080 $registry/sgupt26/devopsshivangi:$BUILD_NUMBER"
+                }
+        }
+        stage('Run inside container') {
+                steps {
+                        withDockerContainer('$registry/sgupt26/devopsshivangi:$BUILD_NUMBER') {
+                        sh 'echo "hi , I am from within container"'
+                        sh 'ls -ltr /usr/local/tomcat/webapps/devopsarea-1.0.war'
+                                                                                             }
+                         }
+            }
+        }
+}
+

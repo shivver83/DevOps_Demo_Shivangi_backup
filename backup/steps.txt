@@ -1,0 +1,397 @@
+ 
+https://github.com/shivver83/DevOps_Demo_Shivangi
+https://github.com/sbcd90/docker-java-sample-webapp
+
+
+Install docker with –  how to install docker on rhel by automation with scripting youtube group)
+  359  yum install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  360  yum update
+  361  yum install yum-utils
+  362  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  363  yum install docker-ce
+  364  docker --version
+  365  systemctl status docker
+  366  systemctl enable docker
+  367  systemctl stardocker-rhel-push-plugin-1.13.1-108.git4ef4b30.el7.x86_64t docker
+  368  systemctl start docker
+  369  systemctl status docker
+https://github.com/deyaa-m/java-Dockerfile
+RHEL 
+1)	yum install git
+2)	git clone https://github.com/deyaa-m/java-Dockerfile.git   (devops area) 
+3)	docker build -t miguno/java-docker-build-tutorial:latest .
+4)	[root@Test java-docker-build-tutorial]# docker --version
+Docker version 19.03.5, build 633a0ea
+[root@Test java-docker-build-tutorial]#
+5)	[root@Test java-docker-build-tutorial]# docker image list
+REPOSITORY                          TAG                 IMAGE ID            CREATED              SIZE
+miguno/java-docker-build-tutorial   latest              058a7a1b86c7        48 seconds ago       87.4MB
+<none>                              <none>              5a9ec64ef2e7        About a minute ago   136MB
+jenkins/jenkins                     latest              2a768410c713        4 days ago           567MB
+jenkins                             latest              cd14cecfdb3a        18 months ago        696MB
+openjdk                             8-jre-alpine3.7     9462e6d3786a        18 months ago        82MB
+openjdk                             8-jdk-alpine3.7     1caad94162ef        18 months ago        102MB
+[root@Test java-docker-build-tutorial]#
+
+6)	Command to get container ip – 
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hungry_williamson
+
+Yaaayyyy , it worked (/home/master/java-Dockerfile)
+[root@Test java-Dockerfile]# docker run -d -p 10.0.0.4:80:8080  devopsarea:1
+1b61926cb61d5c5a07d691e15d68a39ffdb46201d935d27aca288a348558430f
+[root@Test java-Dockerfile]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                            PORTS                   NAMES
+1b61926cb61d        devopsarea:1        "catalina.sh run"   7 seconds ago       Up 6 seconds (health: starting)   10.0.0.4:80->8080/tcp   heuristic_goodall
+[root@Test java-Dockerfile]#
+
+
+URL - http://40.118.249.149/devopsarea-1.0/
+
+ 
+
+[root@Test java-Dockerfile]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS                   NAMES
+1b61926cb61d        devopsarea:1        "catalina.sh run"   6 minutes ago       Up 6 minutes (unhealthy)   10.0.0.4:80->8080/tcp   heuristic_goodall
+[root@Test java-Dockerfile]#
+
+ 
+
+/home/master/java-Dockerfile
+Application accessible till this point
+docker build -t sgupt26/devopsshivangi:3 .
+docker push sgupt26/devopsshivangi:3
+docker run -d -p 10.0.0.4:80:8080  sgupt26/devopsshivangi:3    (run docker container on private ip of vm / eth0 ip of ifconfig  :80 port)
+http://40.118.249.149/devopsarea-1.0/  (access on public ip of vm) 
+
+https://hub.docker.com/repository/docker/sgupt26/devopsshivangi
+
+ 
+
+https://hub.docker.com/
+sgupt26/AashI2006@
+
+devops_demo_shivangi    - docker hub repo 
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+git remote set-url origin https://shivver83@github.com/shivver83/DevOps_Demo_Shivangi.git
+3) Install azure cli –
+https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest 
+[root@Test DevOps_Demo_Shivangi]# uname -a
+Linux Test 3.10.0-1062.4.1.el7.x86_64 #1 SMP Wed Sep 25 09:42:57 EDT 2019 x86_64 x86_64 x86_64 GNU/Linux
+[root@Test DevOps_Demo_Shivangi]#
+
+4) [root@Test DevOps_Demo_Shivangi]# az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code BUPSQVYQY to authenticate.
+[
+  {
+    "cloudName": "AzureCloud",
+    "id": "1d87de0e-3b71-4fc5-b14f-d7076ad719f3",
+    "isDefault": true,
+    "name": "Free Trial",
+    "state": "Enabled",
+    "tenantId": "d36d7cc0-f299-4a4a-856d-4ff32f043b86",
+    "user": {
+      "name": "aashivirat@outlook.com",
+      "type": "user"
+    }
+  }
+]
+[root@Test DevOps_Demo_Shivangi]#
+
+Next step – 
+
+[root@Test DevOps_Demo_Shivangi]# ssh-keygen -f ssh-key-akscluster
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in ssh-key-akscluster.
+Your public key has been saved in ssh-key-akscluster.pub.
+The key fingerprint is:
+SHA256:/eKkJ5AkRAmzFuDG8QpzEONrB5eJiXNHVsDRr4LFMns root@helm 
+The key's randomart image is:
++---[RSA 2048]----+
+|        o+ OO* . |
+|        .o=+*+= o|
+|      .  .B.+o.B.|
+|       o ++oo+oo+|
+|      . Soo=.o+. |
+|     .  o o.o.   |
+|      . .o E     |
+|       o.        |
+|      ..         |
++----[SHA256]-----+
+[root@Test DevOps_Demo_Shivangi]#
+
+Next step 
+
+az aks create --name akscluster --resource-group Helm  --ssh-key-value ssh-key-akscluster.pub --node-count 1 --node-vm-size Standard_D2s_v3 --output table
+
+Output - >
+Finished service principal creation[##################################]  100.0000%
+
+[root@helm DevOps_Demo_Shivangi]# az aks create --name akscluster --resource-group Helm  --ssh-key-value ssh-key-akscluster.pub --node-count 1 --node-vm-size Standard_D2s_v3 --output table
+DnsPrefix               EnableRbac    Fqdn                                                  KubernetesVersion    Location    MaxAgentPools    Name        NodeResourceGroup          ProvisioningState    ResourceGroup
+----------------------  ------------  ----------------------------------------------------  -------------------  ----------  ---------------  ----------  -------------------------  -------------------  ---------------
+akscluster-Helm-1d87de  True          akscluster-helm-1d87de-dabc4c4e.hcp.westus.azmk8s.io  1.14.8               westus      8                akscluster  MC_Helm_akscluster_westus  Succeeded            Helm
+
+Next step - -
+Install kubectl with az aks install-cli
+
+kubectl version --client
+
+Next Step  :
+az aks get-credentials --name akscluster --resource-group Helm  --output table
+
+Now cluster is up and running –
+[root@Test DevOps_Demo_Shivangi]# kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.0.0.1     <none>        443/TCP   20m
+[root@Test DevOps_Demo_Shivangi]#
+
+Next Step  :
+
+At /home/master/DevOps_Demo_Shivangi, I created aks_config.yaml –  one deployment and one service 
+
+[root@Test DevOps_Demo_Shivangi]# cat aks_config.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsshivangi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devopsshivangi
+  template:
+    metadata:
+      labels:
+        app: devopsshivangi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: devopsshivangi
+        image: sgupt26/devopsshivangi:2
+        ports:
+        - containerPort: 8080
+          name: devopsshivangi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devopsshivangi
+spec:
+  type: LoadBalancer
+  selector:
+    app: devopsshivangi
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+[root@Test DevOps_Demo_Shivangi]#
+
+
+[root@Test DevOps_Demo_Shivangi]# kubectl get services
+NAME             TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)          AGE
+devopsarea       NodePort       10.0.118.88   <none>           8080:32041/TCP   153m
+devopsshivangi   LoadBalancer   10.0.155.54   20.184.240.180   8080:32272/TCP   11m
+kubernetes       ClusterIP      10.0.0.1      <none>           443/TCP          4h10m
+[root@Test DevOps_Demo_Shivangi]#
+
+[root@Test DevOps_Demo_Shivangi]# kubectl get nodes
+NAME                                STATUS   ROLES   AGE    VERSION
+aks-nodepool1-24801018-vmss000000   Ready    agent   4h7m   v1.14.8
+[root@Test DevOps_Demo_Shivangi]# kubectl get deployment
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+devopsarea       1/1     1            1           80m
+devopsshivangi   1/1     1            1           15m
+[root@Test DevOps_Demo_Shivangi]#
+
+Access service with loadbalancer external ip :8080
+
+[root@Test DevOps_Demo_Shivangi]# kubectl get services
+NAME             TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)          AGE
+devopsarea       NodePort       10.0.118.88   <none>           8080:32041/TCP   153m
+devopsshivangi   LoadBalancer   10.0.155.54   20.184.240.180   8080:32272/TCP   11m
+kubernetes       ClusterIP      10.0.0.1      <none>           443/TCP          4h10m
+
+
+http://20.184.240.180:8080/devopsarea-1.0/
+
+
+ 
+
+Dockerhub image link – 
+https://hub.docker.com/repository/docker/sgupt26/devopsshivangi/tags?page=1
+
+Now app (same image) can be access in 2 ways – 
+
+1)	Using azure vm public ip and port 80
+http://40.118.249.149/devopsarea-1.0/
+ 
+
+2)	K8s cluster lb external ip:8080
+http://20.184.240.180:8080/devopsarea-1.0/
+ 
+
+
+Github repo for this app –
+https://github.com/shivver83/DevOps_Demo_Shivangi/blob/master/Dockerfile
+
+
+
+
+
+
+
+
+
+https://github.com/shivver83/DevOps_Demo_Shivangi/blob/master/Dockerfile
+
+
+Steps to update application instances on docker image as well as kubernetes cluster –
+
+
+With docker image 
+1)	Update code at /home/master/DevOps_Demo_Shivangi in file /home/master/DevOps_Demo_Shivangi/src/main/java/ HelloWorld.java
+2)	Create new image with –
+docker build -t sgupt26/devopsshivangi:4 .
+docker push sgupt26/devopsshivangi:3
+docker run -d -p 10.0.0.4:80:8080  sgupt26/devopsshivangi:3
+
+3)	Docker ps
+[root@Test java]# docker ps
+CONTAINER ID        IMAGE                      COMMAND             CREATED             STATUS                      PORTS                   NAMES
+e46936a840c4        sgupt26/devopsshivangi:3   "catalina.sh run"   13 minutes ago      Up 13 minutes (unhealthy)   10.0.0.4:80->8080/tcp   hopeful_zhukovsky
+[root@Test java]#
+4)	Access url with http://40.118.249.149/devopsarea-1.0/    ( public ip of vm)
+With k8s cluster
+
+1)	Update aks_config.yaml at /home/master/DevOps_Demo_Shivangi with new image number 
+2)	Run kubectl apply -f aks_config.yamls
+3)	Access url with http://20.184.240.180:8080/devopsarea-1.0/      ( external ip of load balancer :port in yaml)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Commands used to rename and upload images
+
+ [root@Test DevOps_Demo_Shivangi]# history |grep -i "docker build" |grep -i devops_demo_shivangi
+  815  history |grep -i "docker build" |grep -i devops_demo_shivangi
+[root@Test DevOps_Demo_Shivangi]# history |grep -i "docker tag"
+  588  docker tag devopsarea:2 sgupt26:2
+  590  docker tag devopsarea:2 sgupt26/devops_demo_shivangi:2
+  795  docker tag sgupt26/devops_demo_shivangi:2 devopsshivangi:1
+  801  docker tag devopsarea:2 devopsshivangi:1
+  816  history |grep -i "docker tag"
+[root@Test DevOps_Demo_Shivangi]# docker tag devopsarea:2 sgupt26/devopsshivangi:2
+[root@Test DevOps_Demo_Shivangi]# history |grep -i "docker push" |grep -i devops_demo_shivangi
+  591  docker push sgupt26/devops_demo_shivangi:2
+  812  docker push sgupt26/devops_demo_shivangi:2
+  818  history |grep -i "docker push" |grep -i devops_demo_shivangi
+[root@Test DevOps_Demo_Shivangi]# docker push sgupt26/devopsshivangi:2
+The push refers to repository [docker.io/sgupt26/devopsshivangi]
+1726c239b632: Mounted from sgupt26/devops_demo_shivangi
+b7d850202de0: Mounted from sgupt26/devops_demo_shivangi
+d1d0b1719b96: Mounted from sgupt26/devops_demo_shivangi
+48988bb7b861: Mounted from sgupt26/devops_demo_shivangi
+edd61588d126: Pushed
+9b9b7f3d56a0: Mounted from sgupt26/devops_demo_shivangi
+f1b5933fe4b5: Mounted from sgupt26/devops_demo_shivangi
+2: digest: sha256:a876d436a93a87cba78355297503b8a3e856cd15c2328ad86c8d06bd542fb54d size: 1785
+
+Other refrred commands -\
+
+docker pull sgupt26/devops_demo_shivangi
+
+kubectl run devops_demo_shivangi --image=devops_demo_shivangi:2
+
+sgupt26/devops_demo_shivangi:2
+
+kubectl expose deployment gs-spring-boot-docker --type=LoadBalancer --port=80 --target-port=8080
+
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+
+sgupt26/devopsshivangi:2
+
+http://20.184.240.180:8080/devopsarea-1.0/
+
+
+
+Jenkins setup using helm –
+
+curl -L https://git.io/get_helm.sh | bash
+https://8gwifi.org/docs/kube-jenkins.jsp
+
+
+helm install stable/Jenkins
+
+
+next run –
+
+[root@helm DevOps_Demo_Shivangi]# printf $(kubectl get secret --namespace default oldfashioned-sponge-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+kD1f2uGWpv
+
+After aks installation is done and Jenkins is installed – 
+
+Refer - https://bitnami.com/stack/jenkins/helm
+Run 
+
+helm repo add azure-marketplace https://marketplace.azurecr.io/helm/v1/repo
+helm install azure-marketplace/jenkins
+# Read more about how to deploy a Helm Chart in AKS in the Get Started With Bitnami Charts In The Microsoft Azure Marketplace
+
+
+ 
+
+[root@helm DevOps_Demo_Shivangi]#   echo "Jenkins URL: http://$SERVICE_IP/"
+Jenkins URL: http://13.86.187.227/
+
+
+
+
+
+ 
+
+
+
+
+refferde - https://8gwifi.org/docs/kube-jenkins.jsp
+This link fixed issue - https://bitnami.com/stack/jenkins/helm
+
+
+[root@helm DevOps_Demo_Shivangi]# echo Username: user
+Username: user
+[root@helm DevOps_Demo_Shivangi]#  echo Password: $(kubectl get secret --namespace default vetoed-jellyfish-jenkins -o jsonpath="{.data.jenkins-password}" | base64 --decode)
+Password: BwBbJ6x9Xx
+[root@helm DevOps_Demo_Shivangi]#
+
+
+
+Other refrred command s- 
+
+   kubectl create serviceaccount --namespace kube-system tiller
+   kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+   helm init --service-account tiller --upgrade
+   helm update repo
+   helm init --service-account=tiller
+   helm install stable/jenkins
+
+

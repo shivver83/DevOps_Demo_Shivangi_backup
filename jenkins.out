@@ -1,0 +1,463 @@
+apiVersion: v1
+appVersion: 2.204.1
+description: The leading open source automation server
+engine: gotpl
+home: https://jenkins.io/
+icon: https://bitnami.com/assets/stacks/jenkins/img/jenkins-stack-110x117.png
+keywords:
+- jenkins
+- ci
+- cd
+- http
+- web
+- application
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: jenkins
+sources:
+- https://github.com/bitnami/bitnami-docker-jenkins
+version: 4.1.2
+
+---
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry and imagePullSecrets
+##
+global:
+  imageRegistry: marketplace.azurecr.io
+#   imagePullSecrets:
+#     - myRegistryKeySecretName
+#   storageClass: myStorageClass
+
+## Bitnami Jenkins image version
+## ref: https://hub.docker.com/r/bitnami/jenkins/tags/
+##
+image:
+  registry: docker.io
+  repository: bitnami/jenkins
+  tag: 2.204.1-debian-9-r2
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+
+## String to partially override jenkins.fullname template (will maintain the release name)
+##
+# nameOverride:
+
+## String to fully override jenkins.fullname template
+##
+# fullnameOverride:
+
+## User of the application
+## ref: https://github.com/bitnami/bitnami-docker-jenkins#configuration
+##
+jenkinsUser: user
+
+## Application password
+## Defaults to a random 10-character alphanumeric string if not set
+## ref: https://github.com/bitnami/bitnami-docker-jenkins#configuration
+##
+# jenkinsPassword:
+
+## Jenkins home directory
+##
+jenkinsHome: /opt/bitnami/jenkins/jenkins_home
+
+## Allows to disable the initial Bitnami configuration for Jenkins
+##
+disableInitialization: "no"
+
+## Customize JVM parameters
+##
+# javaOpts:
+
+## Jenkins containers' liveness and readiness probes
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+##
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 180
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 6
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+
+## Jenkins containers' resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits: {}
+  #   cpu: 500m
+  #   memory: 1Gi
+  requests:
+    cpu: 300m
+    memory: 512Mi
+
+## Pod annotations
+## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+##
+podAnnotations: {}
+
+## Affinity for pod assignment
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+## Node labels for pod assignment. Evaluated as a template.
+## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
+## Tolerations for pod assignment. Evaluated as a template.
+## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: {}
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  ## If true, use a Persistent Volume Claim, If false, use emptyDir
+  ##
+  enabled: true
+  ## Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  ## Persistent Volume Claim annotations
+  ##
+  annotations:
+  ## Persistent Volume Access Mode
+  ##
+  accessModes:
+    - ReadWriteOnce
+  ## Persistent Volume size
+  ##
+  size: 8Gi
+
+## Service paramaters
+##
+service:
+  ## Service type
+  ##
+  type: LoadBalancer
+  ## HTTP port
+  ##
+  port: 80
+  ## HTTPS port
+  ##
+  httpsPort: 443
+  ## Specify the nodePort(s) value(s) for the LoadBalancer and NodePort service types.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  ##
+  nodePorts:
+    http: ""
+    https: ""
+  ## Set the LoadBalancer service type to internal only.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+  ##
+  # loadBalancerIP:
+  ## Provide any additional annotations which may be required. This can be used to
+  ## set the LoadBalancer service type to internal only.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+  ##
+  annotations: {}
+  ## Enable client source IP preservation
+  ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  externalTrafficPolicy: Cluster
+
+## Ingress paramaters
+##
+ingress:
+  ## Set to true to enable ingress record generation
+  ##
+  enabled: false
+
+  ## Set this to true in order to add the corresponding annotations for cert-manager
+  ##
+  certManager: false
+
+  ## When the ingress is enabled, a host pointing to this will be created
+  ##
+  hostname: jenkins.local
+
+  ## Ingress annotations done as key:value pairs
+  ## For a full list of possible ingress annotations, please see
+  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
+  ##
+  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
+  ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
+  annotations: {}
+  #  kubernetes.io/ingress.class: nginx
+
+  ## The list of additional hostnames to be covered with this ingress record.
+  ## Most likely the hostname above will be enough, but in the event more hosts are needed, this is an array
+  ## hosts:
+  ## - name: jenkins.local
+  ##   path: /
+
+  ## The tls configuration for the ingress
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+  ##
+  tls:
+    - hosts:
+        - example.local
+      secretName: example.local-tls
+
+  secrets:
+  ## If you're providing your own certificates, please use this to add the certificates as secrets
+  ## key and certificate should start with -----BEGIN CERTIFICATE----- or
+  ## -----BEGIN RSA PRIVATE KEY-----
+  ##
+  ## name should line up with a tlsSecret set further up
+  ## If you're using cert-manager, this is unneeded, as it will create the secret for you if it is not set
+  ##
+  ## It is also possible to create and manage the certificates outside of this helm chart
+  ## Please see README.md for more information
+  # - name: apache.local-tls
+  #   key:
+  #   certificate:
+
+## Prometheus Exporter / Metrics
+##
+metrics:
+  enabled: false
+  ## Bitnami Jenkins Prometheus Exporter image
+  ## ref: https://hub.docker.com/r/bitnami/jenkins-exporter/tags/
+  ##
+  image:
+    registry: docker.io
+    repository: bitnami/jenkins-exporter
+    tag: 0.20171225.0-debian-9-r150
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistryKeySecretName
+  ## Metrics exporter pod Annotation and Labels
+  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  ##
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9118"
+    ## Metrics exporter resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+  ## Jenkins Prometheus exporter resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits: {}
+    #   cpu: 100m
+    #   memory: 128Mi
+    requests: {}
+    #   cpu: 100m
+    #   memory: 128Mi
+---
+# Jenkins
+
+[Jenkins](https://jenkins.io) is widely recognized as the most feature-rich CI available with easy configuration, continuous delivery and continuous integration support, easily test, build and stage your app, and more. It supports multiple SCM tools including CVS, Subversion and Git. It can execute Apache Ant and Apache Maven-based projects as well as arbitrary scripts.
+
+## Azure-ready Charts with Containers from marketplace.azurecr.io
+
+This Helm Chart has been configured to pull the Container Images from the Azure Marketplace Public Repository.
+The following command allows you to download and install all the charts from this repository.
+```bash
+$ helm repo add bitnami-azure https://marketplace.azurecr.io/helm/v1/repo
+```
+## TL;DR;
+
+```console
+$ helm repo add bitnami-azure https://marketplace.azurecr.io/helm/v1/repo
+$ helm install bitnami-azure/jenkins
+```
+
+## Introduction
+
+This chart bootstraps a [Jenkins](https://github.com/bitnami/bitnami-docker-jenkins) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+
+Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This Helm chart has been tested on top of [Bitnami Kubernetes Production Runtime](https://kubeprod.io/) (BKPR). Deploy BKPR to get automated TLS certificates, logging and monitoring for your applications.
+
+## Prerequisites
+
+- Kubernetes 1.12+
+- Helm 2.11+ or Helm 3.0-beta3+
+- PV provisioner support in the underlying infrastructure
+- ReadWriteMany volumes for deployment scaling
+
+## Installing the Chart
+
+To install the chart with the release name `my-release`:
+
+```console
+$ helm repo add bitnami-azure https://marketplace.azurecr.io/helm/v1/repo
+$ helm install --name my-release bitnami-azure/jenkins
+```
+
+These commands deploy Jenkins on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+> **Tip**: List all releases using `helm list`
+
+## Uninstalling the Chart
+
+To uninstall/delete the `my-release` deployment:
+
+```console
+$ helm delete my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+## Parameters
+
+The following tables lists the configurable parameters of the Jenkins chart and their default values.
+
+| Parameter                            | Description                                                                                          | Default                                                      |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `global.imageRegistry`               | Global Docker image registry                                                                         | `nil`                                                        |
+| `global.imagePullSecrets`            | Global Docker registry secret names as an array                                                      | `[]` (does not add image pull secrets to deployed pods)      |
+| `global.storageClass`                | Global storage class for dynamic provisioning                                                        | `nil`                                                        |
+| `image.registry`                     | Jenkins image registry                                                                               | `docker.io`                                                  |
+| `image.repository`                   | Jenkins Image name                                                                                   | `bitnami/jenkins`                                            |
+| `image.tag`                          | Jenkins Image tag                                                                                    | `{TAG_NAME}`                                                 |
+| `image.pullPolicy`                   | Jenkins image pull policy                                                                            | `IfNotPresent`                                               |
+| `image.pullSecrets`                  | Specify docker-registry secret names as an array                                                     | `[]` (does not add image pull secrets to deployed pods)      |
+| `nameOverride`                       | String to partially override jenkins.fullname template with a string (will prepend the release name) | `nil`                                                        |
+| `fullnameOverride`                   | String to fully override jenkins.fullname template with a string                                     | `nil`                                                        |
+| `jenkinsUser`                        | User of the application                                                                              | `user`                                                       |
+| `jenkinsPassword`                    | Application password                                                                                 | _random 10 character alphanumeric string_                    |
+| `jenkinsHome`                        | Jenkins home directory                                                                               | `/opt/bitnami/jenkins/jenkins_home`                          |
+| `disableInitialization`              | Allows to disable the initial Bitnami configuration for Jenkins                                      | `no`                                                         |
+| `javaOpts`                           | Customize JVM parameters                                                                             | `nil`                                                        |
+| `persistence.enabled`                | Enable persistence using PVC                                                                         | `true`                                                       |
+| `persistence.storageClass`           | PVC Storage Class for Jenkins volume                                                                 | `nil` (uses alpha storage class annotation)                  |
+| `persistence.accessMode`             | PVC Access Mode for Jenkins volume                                                                   | `ReadWriteOnce`                                              |
+| `persistence.size`                   | PVC Storage Request for Jenkins volume                                                               | `8Gi`                                                        |
+| `resources`                          | CPU/Memory resource requests/limits                                                                  | `requests: { cpu: "300m", memory: "512Mi" }`                 |
+| `livenessProbe.enabled`              | Turn on and off liveness probe                                                                       | `true`                                                       |
+| `livenessProbe.initialDelaySeconds`  | Delay before liveness probe is initiated                                                             | `180`                                                        |
+| `livenessProbe.periodSeconds`        | How often to perform the probe                                                                       | `10`                                                         |
+| `livenessProbe.timeoutSeconds`       | When the probe times out                                                                             | `5`                                                          |
+| `livenessProbe.successThreshold`     | Minimum consecutive successes for the probe                                                          | `1`                                                          |
+| `livenessProbe.failureThreshold`     | Minimum consecutive failures for the probe                                                           | `6`                                                          |
+| `readinessProbe.enabled`             | Turn on and off readiness probe                                                                      | `true`                                                       |
+| `readinessProbe.initialDelaySeconds` | Delay before readiness probe is initiated                                                            | `30`                                                         |
+| `readinessProbe.periodSeconds`       | How often to perform the probe                                                                       | `5`                                                          |
+| `readinessProbe.timeoutSeconds`      | When the probe times out                                                                             | `3`                                                          |
+| `readinessProbe.successThreshold`    | Minimum consecutive successes for the probe                                                          | `1`                                                          |
+| `readinessProbe.failureThreshold`    | Minimum consecutive failures for the probe                                                           | `3`                                                          |
+| `podAnnotations`                     | Pod annotations                                                                                      | `{}`                                                         |
+| `affinity`                           | Map of node/pod affinities                                                                           | `{}` (The value is evaluated as a template)                  |
+| `nodeSelector`                       | Node labels for pod assignment                                                                       | `{}` (The value is evaluated as a template)                  |
+| `tolerations`                        | Tolerations for pod assignment                                                                       | `[]` (The value is evaluated as a template)                  |
+| `service.type`                       | Kubernetes Service type                                                                              | `LoadBalancer`                                               |
+| `service.port`                       | Service HTTP port                                                                                    | `80`                                                         |
+| `service.httpsPort`                  | Service HTTPS port                                                                                   | `443`                                                        |
+| `service.nodePorts.http`             | Kubernetes http node port                                                                            | `""`                                                         |
+| `service.nodePorts.https`            | Kubernetes https node port                                                                           | `""`                                                         |
+| `service.externalTrafficPolicy`      | Enable client source IP preservation                                                                 | `Cluster`                                                    |
+| `service.loadBalancerIP`             | LoadBalancer service IP address                                                                      | `""`                                                         |
+| `ingress.enabled`                    | Enable ingress controller resource                                                                   | `false`                                                      |
+| `ingress.annotations`                | Ingress annotations                                                                                  | `[]`                                                         |
+| `ingress.certManager`                | Add annotations for cert-manager                                                                     | `false`                                                      |
+| `ingress.hosts[0].name`              | Hostname to your jenkins installation                                                                | `jenkins.local`                                              |
+| `ingress.hosts[0].path`              | Path within the url structure                                                                        | `/`                                                          |
+| `ingress.hosts[0].tls`               | Utilize TLS backend in ingress                                                                       | `false`                                                      |
+| `ingress.hosts[0].tlsHosts`          | Array of TLS hosts for ingress record (defaults to `ingress.hosts[0].name` if `nil`)                 | `nil`                                                        |
+| `ingress.hosts[0].tlsSecret`         | TLS Secret (certificates)                                                                            | `jenkins.local-tls-secret`                                   |
+| `ingress.secrets[0].name`            | TLS Secret Name                                                                                      | `nil`                                                        |
+| `ingress.secrets[0].certificate`     | TLS Secret Certificate                                                                               | `nil`                                                        |
+| `ingress.secrets[0].key`             | TLS Secret Key                                                                                       | `nil`                                                        |
+| `metrics.enabled`                    | Start a side-car Jenkins prometheus exporter                                                         | `false`                                                      |
+| `metrics.image.registry`             | Jenkins exporter image registry                                                                      | `docker.io`                                                  |
+| `metrics.image.repository`           | Jenkins exporter image name                                                                          | `bitnami/jenkins-exporter`                                   |
+| `metrics.image.tag`                  | Jenkins exporter image tag                                                                           | `{TAG_NAME}`                                                 |
+| `metrics.image.pullPolicy`           | Image pull policy                                                                                    | `IfNotPresent`                                               |
+| `metrics.image.pullSecrets`          | Specify docker-registry secret names as an array                                                     | `[]` (does not add image pull secrets to deployed pods)      |
+| `metrics.podAnnotations`             | Additional annotations for Metrics exporter pod                                                      | `{prometheus.io/scrape: "true", prometheus.io/port: "9118"}` |
+| `metrics.resources`                  | Exporter resource requests/limit                                                                     | `requests: { cpu: "256m", memory: "100Mi" }`                 |
+
+The above parameters map to the env variables defined in [bitnami/jenkins](http://github.com/bitnami/bitnami-docker-jenkins). For more information please refer to the [bitnami/jenkins](http://github.com/bitnami/bitnami-docker-jenkins) image documentation.
+
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+
+```console
+$ helm install --name my-release \
+  --set jenkinsUsername=admin,jenkinsPassword=password \
+    bitnami-azure/jenkins
+```
+
+The above command sets the Jenkins administrator account username and password to `admin` and `password` respectively.
+
+Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
+
+```console
+$ helm install --name my-release -f values.yaml bitnami-azure/jenkins
+```
+
+> **Tip**: You can use the default [values.yaml](values.yaml)
+
+## Configuration and installation details
+
+### [Rolling VS Immutable tags](https://docs.bitnami.com/containers/how-to/understand-rolling-tags-containers/)
+
+It is strongly recommended to use immutable tags in a production environment. This ensures your deployment does not change automatically if the same tag is updated with a different image.
+
+Bitnami will release a new chart updating its containers if a new version of the main container, significant changes, or critical vulnerabilities exist.
+
+## Persistence
+
+The [Bitnami Jenkins](https://github.com/bitnami/bitnami-docker-jenkins) image stores the Jenkins data and configurations at the `/bitnami/jenkins` path of the container.
+
+Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
+See the [Parameters](#parameters) section to configure the PVC or to disable persistence.
+
+## Upgrading
+
+### To 4.0.0
+
+Helm performs a lookup for the object based on its group (apps), version (v1), and kind (Deployment). Also known as its GroupVersionKind, or GVK. Changing the GVK is considered a compatibility breaker from Kubernetes' point of view, so you cannot "upgrade" those objects to the new GVK in-place. Earlier versions of Helm 3 did not perform the lookup correctly which has since been fixed to match the spec.
+
+In 4dfac075aacf74405e31ae5b27df4369e84eb0b0 the `apiVersion` of the deployment resources was updated to `apps/v1` in tune with the api's deprecated, resulting in compatibility breakage.
+
+This major version signifies this change.
+
+### To 1.0.0
+
+Backwards compatibility is not guaranteed unless you modify the labels used on the chart's deployments.
+Use the workaround below to upgrade from versions previous to 1.0.0. The following example assumes that the release name is jenkins:
+
+```console
+$ kubectl patch deployment jenkins --type=json -p='[{"op": "remove", "path": "/spec/selector/matchLabels/chart"}]'
+```
